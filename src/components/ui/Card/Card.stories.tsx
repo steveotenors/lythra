@@ -1,6 +1,13 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Card } from './Card';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter
+} from './Card';
 
 export default {
   title: 'Components/Card',
@@ -10,174 +17,159 @@ export default {
       control: { type: 'select' },
       options: ['default', 'outlined', 'elevated'],
     },
-    size: {
-      control: { type: 'select' },
-      options: ['sm', 'md', 'lg'],
-    },
-    padding: {
-      control: { type: 'select' },
-      options: ['none', 'sm', 'md', 'lg'],
-    },
-    radius: {
-      control: { type: 'select' },
-      options: ['none', 'sm', 'md', 'lg', 'full'],
-    },
-    hoverable: {
-      control: { type: 'boolean' },
-    },
-    clickable: {
-      control: { type: 'boolean' },
-    },
-    onClick: { action: 'clicked' },
   },
 } as Meta<typeof Card>;
 
 type Story = StoryObj<typeof Card>;
 
-// Default state story
+// Default card story
 export const Default: Story = {
   args: {
-    children: <div>Basic Card Content</div>,
+    children: <div style={{ padding: '1rem' }}>This is a simple card component</div>,
     variant: 'default',
-    size: 'md',
-    padding: 'md',
-    radius: 'md',
   },
 };
 
-// Variants
+// Card variants
 export const Variants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card variant="default" padding="md">
-        <h3>Default Card</h3>
-        <p>This is a default card with no border or shadow.</p>
+      <Card variant="default">
+        <CardContent>Default variant card</CardContent>
       </Card>
-      <Card variant="outlined" padding="md">
-        <h3>Outlined Card</h3>
-        <p>This card has a border but no shadow.</p>
+      <Card variant="outlined">
+        <CardContent>Outlined variant card</CardContent>
       </Card>
-      <Card variant="elevated" padding="md">
-        <h3>Elevated Card</h3>
-        <p>This card has a shadow but no border.</p>
+      <Card variant="elevated">
+        <CardContent>Elevated variant card</CardContent>
       </Card>
     </div>
   ),
 };
 
-// Sizes
-export const Sizes: Story = {
+// Complete card example with all subcomponents
+export const CompleteCard: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card size="sm" variant="outlined" padding="md">
-        <h3>Small Card</h3>
-        <p>This is a small card (300px max-width).</p>
-      </Card>
-      <Card size="md" variant="outlined" padding="md">
-        <h3>Medium Card</h3>
-        <p>This is a medium card (400px max-width).</p>
-      </Card>
-      <Card size="lg" variant="outlined" padding="md">
-        <h3>Large Card</h3>
-        <p>This is a large card (500px max-width).</p>
-      </Card>
-    </div>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>This is a description for the card</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>This is the main content of the card. It can contain any arbitrary content.</p>
+      </CardContent>
+      <CardFooter>
+        <button style={{ 
+          backgroundColor: '#3b82f6', 
+          color: 'white', 
+          padding: '0.5rem 1rem', 
+          borderRadius: '0.25rem',
+          border: 'none',
+          cursor: 'pointer'
+        }}>
+          Action Button
+        </button>
+      </CardFooter>
+    </Card>
   ),
 };
 
-// Padding
-export const Padding: Story = {
+// Login form example
+export const LoginFormCard: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card variant="outlined" padding="none">
-        <div style={{ backgroundColor: '#f3f4f6', padding: '0.5rem' }}>
-          <h3>No Padding</h3>
-          <p>This card has no padding.</p>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Enter your credentials to access your account</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor="email" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              style={{ 
+                padding: '0.5rem',
+                border: '1px solid #e5e7eb',
+                borderRadius: '0.25rem',
+                fontSize: '0.875rem'
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor="password" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Password</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              style={{ 
+                padding: '0.5rem',
+                border: '1px solid #e5e7eb',
+                borderRadius: '0.25rem',
+                fontSize: '0.875rem'
+              }}
+            />
+          </div>
         </div>
-      </Card>
-      <Card variant="outlined" padding="sm">
-        <h3>Small Padding</h3>
-        <p>This card has small padding (0.5rem).</p>
-      </Card>
-      <Card variant="outlined" padding="md">
-        <h3>Medium Padding</h3>
-        <p>This card has medium padding (1rem).</p>
-      </Card>
-      <Card variant="outlined" padding="lg">
-        <h3>Large Padding</h3>
-        <p>This card has large padding (1.5rem).</p>
-      </Card>
-    </div>
+      </CardContent>
+      <CardFooter>
+        <button style={{ 
+          backgroundColor: '#3b82f6', 
+          color: 'white', 
+          padding: '0.5rem 1rem', 
+          borderRadius: '0.25rem',
+          width: '100%',
+          border: 'none',
+          cursor: 'pointer'
+        }}>
+          Login
+        </button>
+      </CardFooter>
+    </Card>
   ),
 };
 
-// Radius
-export const Radius: Story = {
+// CardHeader only
+export const HeaderOnly: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card variant="outlined" padding="md" radius="none">
-        <h3>No Radius</h3>
-        <p>This card has no border radius.</p>
-      </Card>
-      <Card variant="outlined" padding="md" radius="sm">
-        <h3>Small Radius</h3>
-        <p>This card has small border radius (0.125rem).</p>
-      </Card>
-      <Card variant="outlined" padding="md" radius="md">
-        <h3>Medium Radius</h3>
-        <p>This card has medium border radius (0.375rem).</p>
-      </Card>
-      <Card variant="outlined" padding="md" radius="lg">
-        <h3>Large Radius</h3>
-        <p>This card has large border radius (0.5rem).</p>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>This is a description for the card</CardDescription>
+      </CardHeader>
+    </Card>
   ),
 };
 
-// Interactive
-export const Interactive: Story = {
+// CardContent only
+export const ContentOnly: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card variant="outlined" padding="md" hoverable>
-        <h3>Hoverable Card</h3>
-        <p>This card has a hover effect. Try hovering over it.</p>
-      </Card>
-      <Card 
-        variant="elevated" 
-        padding="md" 
-        hoverable 
-        clickable 
-        onClick={() => alert('Card clicked!')}
-      >
-        <h3>Clickable Card</h3>
-        <p>This card is clickable. Try clicking on it.</p>
-      </Card>
-    </div>
+    <Card>
+      <CardContent>
+        <p>This is a standalone content section that isn&apos;t preceded by a header.</p>
+      </CardContent>
+    </Card>
   ),
 };
 
-// Custom Colors
-export const CustomColors: Story = {
+// CardFooter only
+export const FooterOnly: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Card 
-        variant="outlined" 
-        padding="md" 
-        borderColor="#4f46e5"
-        backgroundColor="#eef2ff"
-      >
-        <h3>Custom Border & Background</h3>
-        <p>This card has a custom border and background color.</p>
-      </Card>
-      <Card 
-        variant="elevated" 
-        padding="md" 
-        backgroundColor="#ecfdf5"
-      >
-        <h3>Custom Background</h3>
-        <p>This card has a custom background color.</p>
-      </Card>
-    </div>
+    <Card>
+      <CardFooter>
+        <button style={{ 
+          backgroundColor: '#3b82f6', 
+          color: 'white', 
+          padding: '0.5rem 1rem', 
+          borderRadius: '0.25rem',
+          border: 'none',
+          cursor: 'pointer'
+        }}>
+          Action Button
+        </button>
+      </CardFooter>
+    </Card>
   ),
 }; 

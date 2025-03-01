@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 0.5rem;
 }
 
 .ui-textarea {
@@ -31,6 +32,16 @@
 
 .ui-textarea::placeholder {
   color: #9ca3af;
+}
+
+/* TextArea Label */
+.ui-textarea-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #374151;
+  margin-bottom: 0.25rem;
 }
 
 /* Auto-resize style */
@@ -99,10 +110,29 @@
   margin-top: 0.25rem;
   color: #ef4444;
   font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .ui-textarea__helper-text {
   margin-top: 0.25rem;
   color: #6b7280;
   font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* State-specific label styles */
+.ui-textarea:disabled + .ui-textarea-label,
+.ui-textarea[readonly] + .ui-textarea-label {
+  opacity: 0.5;
+}
+
+/* Required label style */
+.ui-textarea-label.required::after {
+  content: "*";
+  color: #ef4444;
+  margin-left: 0.25rem;
 } 

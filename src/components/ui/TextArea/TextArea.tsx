@@ -1,7 +1,12 @@
 import React from 'react';
 import './TextArea.css';
 
+// Main TextArea root component
 export interface TextAreaProps {
+  /**
+   * TextArea content
+   */
+  children?: React.ReactNode;
   /**
    * TextArea value
    */
@@ -63,14 +68,6 @@ export interface TextAreaProps {
    */
   error?: boolean;
   /**
-   * Error message
-   */
-  errorMessage?: string;
-  /**
-   * Helper text
-   */
-  helperText?: string;
-  /**
    * Additional className
    */
   className?: string;
@@ -94,74 +91,80 @@ export interface TextAreaProps {
    * onKeyUp handler
    */
   onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+  /**
+   * Optional HTML attributes
+   */
+  htmlAttributes?: React.HTMLAttributes<HTMLTextAreaElement>;
 }
 
-export const TextArea: React.FC<TextAreaProps> = ({
-  value,
-  defaultValue,
-  placeholder,
-  name,
-  id,
-  disabled = false,
-  required = false,
-  readOnly = false,
-  rows = 3,
-  maxLength,
-  minLength,
-  autoResize = false,
-  variant = 'default',
-  size = 'md',
-  error = false,
-  errorMessage,
-  helperText,
-  className = '',
-  onChange,
-  onFocus,
-  onBlur,
-  onKeyDown,
-  onKeyUp,
-}) => {
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (autoResize && textareaRef.current) {
-      // Reset height to auto to get the correct scrollHeight
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
+export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({
+    children,
+    value,
+    defaultValue,
+    placeholder,
+    name,
+    id,
+    disabled = false,
+    required = false,
+    readOnly = false,
+    rows = 3,
+    maxLength,
+    minLength,
+    autoResize = false,
+    variant = 'default',
+    size = 'md',
+    error = false,
+    className = '',
+    onChange,
+    onFocus,
+    onBlur,
+    onKeyDown,
+    onKeyUp,
+    htmlAttributes,
+    ...props
+  }, ref) => {
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+    const mergedRef = useMergedRef(ref, textareaRef);
     
-    if (onChange) {
-      onChange(e);
-    }
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (autoResize && textareaRef.current) {
+        // Reset height to auto to get the correct scrollHeight
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      }
+      
+      if (onChange) {
+        onChange(e);
+      }
+    };
 
-  // Set initial height when component mounts
-  React.useEffect(() => {
-    if (autoResize && textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [autoResize, value, defaultValue]);
+    // Set initial height when component mounts
+    React.useEffect(() => {
+      if (autoResize && textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      }
+    }, [autoResize, value, defaultValue]);
 
-  const baseClass = 'ui-textarea';
-  const variantClass = `${baseClass}--${variant}`;
-  const sizeClass = `${baseClass}--${size}`;
-  const errorClass = error ? `${baseClass}--error` : '';
-  const autoResizeClass = autoResize ? `${baseClass}--auto-resize` : '';
-  
-  const textareaClasses = [
-    baseClass,
-    variantClass,
-    sizeClass,
-    errorClass,
-    autoResizeClass,
-    className
-  ].filter(Boolean).join(' ');
+    const baseClass = 'ui-textarea';
+    const variantClass = `${baseClass}--${variant}`;
+    const sizeClass = `${baseClass}--${size}`;
+    const errorClass = error ? `${baseClass}--error` : '';
+    const autoResizeClass = autoResize ? `${baseClass}--auto-resize` : '';
+    
+    const textareaClasses = [
+      baseClass,
+      variantClass,
+      sizeClass,
+      errorClass,
+      autoResizeClass,
+      className
+    ].filter(Boolean).join(' ');
 
-  return (
-    <div className="ui-textarea-container">
+    return (
       <textarea
-        ref={textareaRef}
+        ref={mergedRef}
         value={value}
         defaultValue={defaultValue}
         placeholder={placeholder}
@@ -179,15 +182,167 @@ export const TextArea: React.FC<TextAreaProps> = ({
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
-      />
-      {errorMessage && error && (
-        <div className="ui-textarea__error-message">{errorMessage}</div>
-      )}
-      {helperText && !error && (
-        <div className="ui-textarea__helper-text">{helperText}</div>
-      )}
+        {...htmlAttributes}
+        {...props}
+      >
+        {children}
+      </textarea>
+    );
+  }
+);
+
+TextArea.displayName = 'TextArea';
+
+// TextArea Container component
+export interface TextAreaContainerProps {
+  /**
+   * Container content
+   */
+  children: React.ReactNode;
+  /**
+   * Additional className
+   */
+  className?: string;
+  /**
+   * Optional HTML attributes
+   */
+  htmlAttributes?: React.HTMLAttributes<HTMLDivElement>;
+}
+
+export const TextAreaContainer: React.FC<TextAreaContainerProps> = ({
+  children,
+  className = '',
+  htmlAttributes,
+}) => {
+  const containerClasses = [
+    'ui-textarea-container',
+    className
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={containerClasses} {...htmlAttributes}>
+      {children}
     </div>
   );
 };
+
+// TextArea Label component
+export interface TextAreaLabelProps {
+  /**
+   * Label content
+   */
+  children: React.ReactNode;
+  /**
+   * For attribute to link with textarea id
+   */
+  htmlFor?: string;
+  /**
+   * Additional className
+   */
+  className?: string;
+  /**
+   * Optional HTML attributes
+   */
+  htmlAttributes?: React.LabelHTMLAttributes<HTMLLabelElement>;
+}
+
+export const TextAreaLabel: React.FC<TextAreaLabelProps> = ({
+  children,
+  htmlFor,
+  className = '',
+  htmlAttributes,
+}) => {
+  const labelClasses = [
+    'ui-textarea-label',
+    className
+  ].filter(Boolean).join(' ');
+
+  return (
+    <label className={labelClasses} htmlFor={htmlFor} {...htmlAttributes}>
+      {children}
+    </label>
+  );
+};
+
+// TextArea Helper Text component
+export interface TextAreaHelperTextProps {
+  /**
+   * Helper text content
+   */
+  children: React.ReactNode;
+  /**
+   * Additional className
+   */
+  className?: string;
+  /**
+   * Optional HTML attributes
+   */
+  htmlAttributes?: React.HTMLAttributes<HTMLDivElement>;
+}
+
+export const TextAreaHelperText: React.FC<TextAreaHelperTextProps> = ({
+  children,
+  className = '',
+  htmlAttributes,
+}) => {
+  const helperTextClasses = [
+    'ui-textarea__helper-text',
+    className
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={helperTextClasses} {...htmlAttributes}>
+      {children}
+    </div>
+  );
+};
+
+// TextArea Error Message component
+export interface TextAreaErrorProps {
+  /**
+   * Error message content
+   */
+  children: React.ReactNode;
+  /**
+   * Additional className
+   */
+  className?: string;
+  /**
+   * Optional HTML attributes
+   */
+  htmlAttributes?: React.HTMLAttributes<HTMLDivElement>;
+}
+
+export const TextAreaError: React.FC<TextAreaErrorProps> = ({
+  children,
+  className = '',
+  htmlAttributes,
+}) => {
+  const errorClasses = [
+    'ui-textarea__error-message',
+    className
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={errorClasses} {...htmlAttributes}>
+      {children}
+    </div>
+  );
+};
+
+// Helper function to merge refs
+function useMergedRef<T>(...refs: React.Ref<T>[]) {
+  return React.useCallback((element: T) => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+      
+      if (typeof ref === 'function') {
+        ref(element);
+      } else if (ref && typeof ref === 'object') {
+        (ref as React.MutableRefObject<T>).current = element;
+      }
+    });
+  }, [refs]);
+}
 
 export default TextArea; 

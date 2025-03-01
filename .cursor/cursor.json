@@ -1,0 +1,7 @@
+{
+    "ai": {
+      "contextFiles": [
+        "./cursor-ai-rules.md"
+      ]
+    }
+  }

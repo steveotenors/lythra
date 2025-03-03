@@ -1,0 +1,95 @@
+/* src/components/dashboard/DashboardGrid/DashboardGrid.css */
+.dashboard-grid-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--dashboard-bg-color, #f8f9fa);
+  transition: background-color 0.2s;
+}
+
+.dashboard-grid {
+  min-height: 600px;
+}
+
+.dashboard-grid.is-editing .react-grid-item {
+  transition:
+    left 0.2s,
+    top 0.2s,
+    width 0.2s,
+    height 0.2s;
+}
+
+.react-grid-item {
+  transition: transform 0.2s;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: rgba(63, 81, 181, 0.2);
+  border: 1px dashed #3f51b5;
+  border-radius: 8px;
+  z-index: 2;
+}
+
+.react-grid-item.react-draggable-dragging {
+  z-index: 3;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.react-grid-item.resizing {
+  z-index: 3;
+}
+
+.module-container {
+  width: 100%;
+  height: 100%;
+}
+
+.unknown-module-message {
+  padding: 16px;
+  text-align: center;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+.dashboard-grid-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 32px;
+  text-align: center;
+}
+
+.empty-dashboard-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  text-align: center;
+  color: var(--text-muted-color, #6c757d);
+}
+
+.empty-dashboard-message h3 {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color, #343a40);
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .dashboard-grid-container {
+    --dashboard-bg-color: #1a202c;
+    --text-color: #e2e8f0;
+    --text-muted-color: #a0aec0;
+  }
+
+  .unknown-module-message {
+    color: #f8d7da;
+    background-color: #582a30;
+    border-color: #75373e;
+  }
+}

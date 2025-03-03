@@ -8,7 +8,9 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
   position: relative;
   outline: none;
 }
@@ -18,7 +20,9 @@
 }
 
 .module-wrapper.is-focused {
-  box-shadow: 0 0 0 2px #4299e1, 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 0 0 2px #4299e1,
+    0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .module-wrapper.is-editing {
@@ -60,7 +64,9 @@
   justify-content: center;
   border-radius: 4px;
   color: var(--module-action-color, #6c757d);
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .module-action-button:hover {
@@ -123,4 +129,4 @@
     --module-action-color: #a0aec0;
     --module-action-hover-color: #e2e8f0;
   }
-} 
+}

@@ -73,7 +73,8 @@ export function useModuleSandbox(): ModuleSandbox {
 export function withModuleContext<P extends ModuleProps>(
   Component: React.ComponentType<P>
 ): React.FC<P> {
-  return (props) => {
+  // Create a named function with descriptive displayName
+  const WithModuleContext: React.FC<P> = (props) => {
     // Extract module type from ID (format is typically "type:instance")
     let moduleType = props.id;
     const idParts = props.id.split(':');
@@ -87,4 +88,16 @@ export function withModuleContext<P extends ModuleProps>(
       </ModuleProvider>
     );
   };
+  
+  // Set displayName for better debugging
+  WithModuleContext.displayName = `WithModuleContext(${getDisplayName(Component)})`;
+  
+  return WithModuleContext;
+}
+
+/**
+ * Helper function to get a component's display name
+ */
+function getDisplayName<P>(Component: React.ComponentType<P>): string {
+  return Component.displayName || Component.name || 'Component';
 } 

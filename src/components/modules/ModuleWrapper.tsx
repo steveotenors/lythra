@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useModuleSandbox } from '@/lib/modules/moduleContext';
 import './ModuleWrapper.css';
 
 interface ModuleWrapperProps {
@@ -25,7 +24,6 @@ export const ModuleWrapper: React.FC<ModuleWrapperProps> = ({
 }) => {
   const [isResizing, setIsResizing] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const sandbox = useModuleSandbox();
   
   // Handle keyboard navigation for accessibility
   const handleKeyDown = (e: React.KeyboardEvent) => {

@@ -72,6 +72,18 @@ interface MockWrapperProps {
   title?: string;
 }
 
+// Type for higher-order component props
+interface HOCProps<T> {
+  Component: React.ComponentType<T>;
+  props: T;
+}
+
+// Helper function that uses HOCProps to create HOCs
+function createHOC<T extends React.JSX.IntrinsicAttributes>(options: HOCProps<T>): React.ReactElement {
+  const { Component, props } = options;
+  return <Component {...props} />;
+}
+
 // Mock the ModuleWrapper component
 vi.mock('@/components/modules/ModuleWrapper', () => {
   const MockWrapper = ({ children, title }: MockWrapperProps) => (
@@ -102,8 +114,16 @@ vi.mock('react-grid-layout', () => {
   );
   MockResponsive.displayName = 'MockResponsiveGrid';
   
+  // Using the HOCProps interface for the WidthProvider
   const WidthProvider = <T extends object>(Component: React.ComponentType<T>) => {
-    const WrappedComponent = (props: T) => <Component {...props} />;
+    // Return a function that uses our createHOC helper with HOCProps
+    const WrappedComponent = (props: T) => {
+      const hocProps: HOCProps<T> = { 
+        Component, 
+        props 
+      };
+      return createHOC(hocProps);
+    };
     WrappedComponent.displayName = `WidthProvider(${Component.displayName || 'Component'})`;
     return WrappedComponent;
   };

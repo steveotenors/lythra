@@ -66,7 +66,7 @@ export const Card: React.FC<CardProps> = ({
   onClick,
   className = '',
   htmlAttributes,
-}) => {
+}): React.ReactElement => {
   const baseClass = 'ui-card';
   const variantClass = `${baseClass}--${variant}`;
   const sizeClass = `${baseClass}--${size}`;
@@ -86,21 +86,40 @@ export const Card: React.FC<CardProps> = ({
     className
   ].filter(Boolean).join(' ');
 
-  const style: React.CSSProperties = {
+  const style = {
     ...(borderColor ? { borderColor } : {}),
     ...(backgroundColor ? { backgroundColor } : {}),
   };
 
-  return (
-    <div
-      className={cardClasses}
-      onClick={clickable ? onClick : undefined}
-      style={Object.keys(style).length > 0 ? style : undefined}
-      {...htmlAttributes}
-    >
-      {children}
-    </div>
-  );
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (clickable && onClick && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      onClick(event as unknown as React.MouseEvent<HTMLDivElement>);
+    }
+  };
+
+  const cardProps = {
+    className: cardClasses,
+    style: Object.keys(style).length > 0 ? style : undefined,
+    ...htmlAttributes,
+  };
+
+  if (clickable) {
+    return (
+      <div
+        {...cardProps}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-pressed="false"
+      >
+        {children}
+      </div>
+    );
+  }
+
+  return <div {...cardProps}>{children}</div>;
 };
 
 // CardHeader component

@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 // Install these UI components:
 // npx shadcn-ui@latest add button input card
 
-export default function LoginPage() {
+export default function LoginPage(): React.ReactElement {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export default function LoginPage() {
   const { signIn } = useAuth();
   const router = useRouter();
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -29,8 +29,7 @@ export default function LoginPage() {
       await signIn(email, password);
       router.push('/dashboard');
     } catch (error) {
-      console.error(error);
-      setError('Invalid login credentials');
+      setError(error instanceof Error ? error.message : 'Invalid login credentials');
     } finally {
       setIsLoading(false);
     }
@@ -46,8 +45,8 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                {error}
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                <span className="sr-only">Error:</span> {error}
               </div>
             )}
             <div className="space-y-2">
@@ -59,6 +58,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
+                aria-required="true"
               />
             </div>
             <div className="space-y-2">
@@ -69,6 +69,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                aria-required="true"
               />
             </div>
           </CardContent>

@@ -11,7 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/Alert/Alert';
 // Install these components:
 // npx shadcn-ui@latest add textarea alert
 
-function SubmitButton() {
+function SubmitButton(): React.ReactElement {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending}>
@@ -20,12 +20,12 @@ function SubmitButton() {
   );
 }
 
-export function ProjectForm() {
+export function ProjectForm(): React.ReactElement {
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   
-  async function clientAction(formData: FormData) {
+  async function clientAction(formData: FormData): Promise<void> {
     setError(null);
     setSuccess(false);
     

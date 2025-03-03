@@ -127,7 +127,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const mergedRef = useMergedRef(ref, textareaRef);
     
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
       if (autoResize && textareaRef.current) {
         // Reset height to auto to get the correct scrollHeight
         textareaRef.current.style.height = 'auto';
@@ -331,7 +331,7 @@ export const TextAreaError: React.FC<TextAreaErrorProps> = ({
 };
 
 // Helper function to merge refs
-function useMergedRef<T>(...refs: React.Ref<T>[]) {
+function useMergedRef<T>(...refs: React.Ref<T>[]): (element: T) => void {
   return React.useCallback((element: T) => {
     refs.forEach((ref) => {
       if (!ref) return;

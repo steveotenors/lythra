@@ -92,7 +92,8 @@ describe('Card', () => {
     render(<Card clickable onClick={handleClick}>Card Content</Card>);
     
     const card = screen.getByText('Card Content').closest('div');
-    fireEvent.click(card!);
+    expect(card).not.toBeNull();
+    fireEvent.click(card as HTMLElement);
     
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -102,7 +103,8 @@ describe('Card', () => {
     render(<Card onClick={handleClick}>Card Content</Card>);
     
     const card = screen.getByText('Card Content').closest('div');
-    fireEvent.click(card!);
+    expect(card).not.toBeNull();
+    fireEvent.click(card as HTMLElement);
     
     expect(handleClick).not.toHaveBeenCalled();
   });

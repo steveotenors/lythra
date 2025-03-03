@@ -9,7 +9,19 @@ const projectSchema = z.object({
   description: z.string().optional(),
 });
 
-export async function createProject(formData: FormData) {
+type Project = z.infer<typeof projectSchema> & {
+  id: string;
+  user_id: string;
+  created_at: string;
+};
+
+interface ProjectResponse {
+  success: boolean;
+  data?: Project;
+  error?: string;
+}
+
+export async function createProject(formData: FormData): Promise<ProjectResponse> {
   try {
     // Validate input
     const validated = projectSchema.parse({
@@ -46,8 +58,8 @@ export async function createProject(formData: FormData) {
     
     return { success: true, data };
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message };
+    if (error instanceof z.ZodError && error.errors.length > 0) {
+      return { success: false, error: error.errors[0]?.message || 'Invalid input' };
     }
     return { success: false, error: 'Failed to create project' };
   }

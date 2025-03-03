@@ -8,7 +8,7 @@ const meta = {
 
 export default meta;
 
-export const Default = () => (
+export const Default = (): React.ReactElement => (
   <Alert>
     <AlertTitle>Default Alert</AlertTitle>
     <AlertDescription>
@@ -17,7 +17,7 @@ export const Default = () => (
   </Alert>
 );
 
-export const Destructive = () => (
+export const Destructive = (): React.ReactElement => (
   <Alert variant="destructive">
     <AlertTitle>Error Alert</AlertTitle>
     <AlertDescription>
@@ -26,7 +26,7 @@ export const Destructive = () => (
   </Alert>
 );
 
-export const WithoutTitle = () => (
+export const WithoutTitle = (): React.ReactElement => (
   <Alert>
     <AlertDescription>
       This is an alert with only a description.
@@ -34,7 +34,7 @@ export const WithoutTitle = () => (
   </Alert>
 );
 
-export const DestructiveWithoutTitle = () => (
+export const DestructiveWithoutTitle = (): React.ReactElement => (
   <Alert variant="destructive">
     <AlertDescription>
       Error: Something went wrong!

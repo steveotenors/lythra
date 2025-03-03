@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
 // This is a Server Component that checks authentication
-async function AuthCheck() {
+async function AuthCheck(): Promise<null> {
   const supabase = createClient();
   const { data: { session } } = await supabase.auth.getSession();
   
@@ -18,7 +18,7 @@ export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.ReactElement {
   return (
     <>
       {/* Auth check happens server-side */}

@@ -271,6 +271,30 @@ class ModuleRegistry {
   }
   
   /**
+   * Get modules grouped by category
+   * 
+   * @returns {Record<string, ModuleDefinition[]>} Map of category names to arrays of module definitions
+   */
+  getModulesByCategory(): Record<string, ModuleDefinition[]> {
+    const modulesByCategory: Record<string, ModuleDefinition[]> = {};
+    
+    this.getAllDefinitions().forEach(def => {
+      if (!modulesByCategory[def.category]) {
+        modulesByCategory[def.category] = [];
+      }
+      
+      modulesByCategory[def.category]!.push(def);
+    });
+    
+    // Sort modules within each category by name
+    Object.keys(modulesByCategory).forEach(category => {
+      modulesByCategory[category]!.sort((a, b) => a.name.localeCompare(b.name));
+    });
+    
+    return modulesByCategory;
+  }
+  
+  /**
    * Clear all registered modules (useful for testing)
    */
   clearAllModules(): void {

@@ -1,5 +1,7 @@
 # STRICT AI Agent Ruleset for Lythra Codebase Management
 
+> **Note**: This is the canonical version for Lythra - a modular dashboard application with focus on security, accessibility, and performance - located at `docs/development/cursor-ai-rules.md`
+
 ## MANDATORY COMPLIANCE NOTICE
 
 This ruleset MUST be followed WITHOUT EXCEPTION. The AI agent MUST NEVER deviate from these guidelines, suggest alternatives that contradict them, or skip any steps. If a step cannot be completed, the AI MUST notify the user and await further instructions rather than proceeding with a non-compliant solution.
@@ -1169,12 +1171,22 @@ This ruleset MUST be followed WITHOUT EXCEPTION. The AI agent MUST NEVER deviate
 
 **Required Actions (ALL STEPS MANDATORY)**:
 
-1. **Branch Management**:
-   - MUST create feature branches from main/development:
+1. **Repository Assessment**:
+   - MUST check the current branch structure using `git branch -a`
+   - MUST identify the active development branch where most recent work occurs
+   - MUST determine which branch should serve as the base for new features/bugfixes based on repository convention, not assuming it's always main
+
+2. **Environment Setup**:
+   - MUST ensure all dependencies are installed with `npm install`
+   - MUST check for and create required environment files
+   - MUST verify the application builds and runs correctly before making changes
+
+3. **Branch Management**:
+   - MUST create feature branches from the appropriate base branch:
      ```bash
-     git checkout main
+     git checkout [appropriate-base-branch]
      git pull
-     git checkout -b feature/[feature-name]
+     git checkout -b [branch-type]/[branch-name]
      ```
    - MUST name branches according to this pattern:
      - Feature branches: `feature/[feature-name]`
@@ -1185,10 +1197,16 @@ This ruleset MUST be followed WITHOUT EXCEPTION. The AI agent MUST NEVER deviate
    - MUST regularly sync branches with the base branch:
      ```bash
      git fetch
-     git rebase origin/main
+     git rebase origin/[base-branch]
      ```
+   - If uncertain about the appropriate base branch, MUST consult repository documentation or team members
 
-2. **Commits**:
+4. **Handling In-Progress Work**:
+   - If modifying code with uncommitted changes:
+     - MUST stash changes with `git stash` before switching branches
+     - If stash cannot be applied cleanly, MUST create a temporary commit, switch branches, then cherry-pick/rebase as appropriate
+
+5. **Commits**:
    - MUST create atomic commits (one logical change per commit):
      ```bash
      # Add only related files
@@ -1213,27 +1231,32 @@ This ruleset MUST be followed WITHOUT EXCEPTION. The AI agent MUST NEVER deviate
      - Temporary files (`.DS_Store`, `.log`, etc.)
      - Environment files (`.env`, `.env.local`)
 
-3. **Pre-Commit Checks**:
-   - MUST run linting before commit:
+6. **Pre-Commit Checks and Automation**:
+   - MUST rely on automated pre-commit hooks for basic checks:
      ```bash
-     npm run lint
+     # These run automatically via Husky when you commit
+     # Configured in package.json under lint-staged:
+     # - ESLint for .ts and .tsx files
+     # - Prettier for .css files
+     # - TypeScript type checking
      ```
-   - MUST run type checking:
+   - MUST run any additional checks not covered by Husky:
      ```bash
-     npm run typecheck
-     ```
-   - MUST run tests:
-     ```bash
+     # If tests are not automated in the pre-commit hook
      npm run test
      ```
-   - MUST fix ALL issues before committing.
-   - MUST set up Husky for automated pre-commit checks:
+     - If test script is missing, consult project documentation
+   - MUST fix ALL issues before committing:
+     - Husky will block commits if automated checks fail
+     - For warnings that don't block commits, fix these before creating PRs
+   - MUST maintain Husky configuration in the project:
      ```bash
-     # In .husky/pre-commit
-     npm run lint && npm run typecheck && npm run test
+     # .husky/pre-commit should include
+     npx lint-staged && npx tsc --noEmit
      ```
+   - MUST add new file types or checks to lint-staged configuration as project evolves
 
-4. **Pull Requests**:
+7. **Pull Requests**:
    - MUST create a PR for every feature/bugfix:
      ```
      Title: [type]: [Brief description]
@@ -1257,7 +1280,7 @@ This ruleset MUST be followed WITHOUT EXCEPTION. The AI agent MUST NEVER deviate
    - MUST respond to review comments promptly.
    - MUST update PR with requested changes.
 
-5. **Code Review**:
+8. **Code Review**:
    - MUST request code review from at least one peer.
    - MUST address ALL review comments before merging.
    - MUST NOT merge your own PRs without review approval.

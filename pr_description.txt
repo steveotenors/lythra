@@ -1,0 +1,17 @@
+Title: fix: Add explicit return types and fix TypeScript/ESLint errors
+
+Description:
+- What this PR does:
+  - Adds React.ReactElement return types to all component functions
+  - Fixes any types in ProjectResponse interface
+  - Fixes non-null assertions in test files
+  - Adds explicit return types to utility functions
+  - Improves error handling in AuthProvider and login page
+  - Updates configuration files for consistent formatting
+
+- How to test it:
+  - Run npm run lint to verify no ESLint errors remain
+  - Run npx tsc --noEmit to verify no TypeScript errors remain
+
+- Related issue numbers:
+  N/A

@@ -175,7 +175,7 @@ describe('TextArea Component', () => {
 
   it('renders TextAreaContainer correctly', () => {
     render(
-      <TextAreaContainer data-testid="container">
+      <TextAreaContainer htmlAttributes={{ 'data-testid': 'container' }}>
         <TextArea />
       </TextAreaContainer>
     );
@@ -188,7 +188,7 @@ describe('TextArea Component', () => {
   it('renders TextAreaLabel correctly', () => {
     render(
       <TextAreaContainer>
-        <TextAreaLabel htmlFor="test-id" data-testid="label">Label Text</TextAreaLabel>
+        <TextAreaLabel htmlFor="test-id" htmlAttributes={{ 'data-testid': 'label' }}>Label Text</TextAreaLabel>
         <TextArea id="test-id" />
       </TextAreaContainer>
     );
@@ -204,13 +204,13 @@ describe('TextArea Component', () => {
     render(
       <TextAreaContainer>
         <TextArea />
-        <TextAreaHelperText data-testid="helper">Helper text</TextAreaHelperText>
+        <TextAreaHelperText htmlAttributes={{ 'data-testid': 'helper' }}>Helper text</TextAreaHelperText>
       </TextAreaContainer>
     );
     
     const helperText = screen.getByTestId('helper');
     expect(helperText).toBeInTheDocument();
-    expect(helperText).toHaveClass('ui-textarea-helper-text');
+    expect(helperText).toHaveClass('ui-textarea__helper-text');
     expect(helperText).toHaveTextContent('Helper text');
   });
 
@@ -218,27 +218,27 @@ describe('TextArea Component', () => {
     render(
       <TextAreaContainer>
         <TextArea error />
-        <TextAreaError data-testid="error">Error message</TextAreaError>
+        <TextAreaError htmlAttributes={{ 'data-testid': 'error' }}>Error message</TextAreaError>
       </TextAreaContainer>
     );
     
     const errorMessage = screen.getByTestId('error');
     expect(errorMessage).toBeInTheDocument();
-    expect(errorMessage).toHaveClass('ui-textarea-error');
+    expect(errorMessage).toHaveClass('ui-textarea__error-message');
     expect(errorMessage).toHaveTextContent('Error message');
   });
 
   it('composes a complete form with all subcomponents', () => {
     render(
-      <TextAreaContainer data-testid="container">
-        <TextAreaLabel htmlFor="complete-form" data-testid="label">Message</TextAreaLabel>
+      <TextAreaContainer htmlAttributes={{ 'data-testid': 'container' }}>
+        <TextAreaLabel htmlFor="complete-form" htmlAttributes={{ 'data-testid': 'label' }}>Message</TextAreaLabel>
         <TextArea 
           id="complete-form" 
-          data-testid="textarea"
+          htmlAttributes={{ 'data-testid': 'textarea' }}
           placeholder="Enter your message" 
           required
         />
-        <TextAreaHelperText data-testid="helper">Please be specific with your message</TextAreaHelperText>
+        <TextAreaHelperText htmlAttributes={{ 'data-testid': 'helper' }}>Please be specific with your message</TextAreaHelperText>
       </TextAreaContainer>
     );
     
@@ -254,15 +254,15 @@ describe('TextArea Component', () => {
 
   it('composes a form with error state', () => {
     render(
-      <TextAreaContainer data-testid="container">
-        <TextAreaLabel htmlFor="error-form" data-testid="label">Message</TextAreaLabel>
+      <TextAreaContainer htmlAttributes={{ 'data-testid': 'container' }}>
+        <TextAreaLabel htmlFor="error-form" htmlAttributes={{ 'data-testid': 'label' }}>Message</TextAreaLabel>
         <TextArea 
           id="error-form" 
-          data-testid="textarea"
+          htmlAttributes={{ 'data-testid': 'textarea' }}
           placeholder="Enter your message" 
           error
         />
-        <TextAreaError data-testid="error">Message is required</TextAreaError>
+        <TextAreaError htmlAttributes={{ 'data-testid': 'error' }}>Message is required</TextAreaError>
       </TextAreaContainer>
     );
     

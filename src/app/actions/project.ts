@@ -47,7 +47,10 @@ export async function createProject(formData: FormData) {
     return { success: true, data };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message };
+      return { 
+        success: false, 
+        error: error.errors?.[0]?.message || 'Invalid form data' 
+      };
     }
     return { success: false, error: 'Failed to create project' };
   }

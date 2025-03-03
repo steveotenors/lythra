@@ -1,0 +1,126 @@
+/* src/components/modules/ModuleWrapper.css */
+.module-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--module-bg-color, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.module-wrapper:focus-visible {
+  box-shadow: 0 0 0 2px #4299e1;
+}
+
+.module-wrapper.is-focused {
+  box-shadow: 0 0 0 2px #4299e1, 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.module-wrapper.is-editing {
+  cursor: move;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--module-header-bg-color, #f8f9fa);
+  border-bottom: 1px solid var(--module-border-color, #e9ecef);
+  user-select: none;
+}
+
+.module-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--module-title-color, #343a40);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.module-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.module-action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--module-action-color, #6c757d);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.module-action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--module-action-hover-color, #343a40);
+}
+
+.module-action-button:focus-visible {
+  outline: 2px solid #4299e1;
+  outline-offset: 1px;
+}
+
+.module-content {
+  flex: 1;
+  padding: 12px;
+  overflow: auto;
+  position: relative;
+}
+
+.module-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+  border-radius: 0 0 8px 0;
+}
+
+.module-drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  cursor: move;
+}
+
+/* Screen reader only class for accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .module-wrapper {
+    --module-bg-color: #2d3748;
+    --module-header-bg-color: #1a202c;
+    --module-border-color: #4a5568;
+    --module-title-color: #e2e8f0;
+    --module-action-color: #a0aec0;
+    --module-action-hover-color: #e2e8f0;
+  }
+} 
